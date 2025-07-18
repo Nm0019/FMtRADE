@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*.sqlite3
+*.db
+*.log
+
+# Virtual Environment
+venv/
+env/
+
+# VSCode
+.vscode/
+
+# System files
+.DS_Store
+Thumbs.db
+
+data/
+
+read_me.txt/
+
+test.ipynb
+testanalyze.ipynb
+vnv/
