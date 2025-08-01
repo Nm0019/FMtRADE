@@ -154,6 +154,33 @@ def fetch_recent_data(symbol: str, timeframe: str, limit: int = 5000):
 
     return df
 
+# ------------------------ واکشی داده‌ها اندیکاتورها ------------------------
+
+def fetch_indicator_data(symbol: str, timeframe: str, indicator_name: str, limit: int = 5000):
+    """
+    واکشی اطلاعات اندیکاتور ذخیره‌شده در دیتابیس نماد.
+    """
+    table = f"{indicator_name}_{timeframe}".lower()
+    conn = connect(symbol)
+    cursor = conn.cursor()
+
+    cursor.execute(f'''
+        SELECT * FROM {table}
+        ORDER BY time DESC
+        LIMIT ?
+    ''', (limit,))
+    rows = cursor.fetchall()
+    columns = [desc[0] for desc in cursor.description]
+
+    conn.close()
+
+    df = pd.DataFrame(rows[::-1], columns=columns)
+    if "time" in df.columns:
+        df["time"] = pd.to_datetime(df["time"])
+
+    return df
+
+
 
 # ------------------------ حذف داده‌های قدیمی ------------------------
 
